@@ -1,0 +1,21 @@
+---
+title: "Boletin"
+format: revealjs
+editor: visual
+echo: false
+---
+
+```{r}
+#Cargar librerias y datos
+
+source("scripts/librerias_y_datosraw.R")
+```
+
+
+# Titulo
+
+```{r}
+source("scripts/dif_ingresos_mensual.R")
+tabla_resultado_mensual
+```
+
