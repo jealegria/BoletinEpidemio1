@@ -5,17 +5,39 @@ editor: visual
 echo: false
 ---
 
+# Grafico 1
+
 ```{r}
 #Cargar librerias y datos
 
 source("scripts/librerias_y_datosraw.R")
 ```
 
+```{r}
+source("scripts/comparacion_ingresos_linea.R")
+linea_ingresos
+```
 
-# Titulo
+# Grafico 2
 
 ```{r}
 source("scripts/dif_ingresos_mensual.R")
 tabla_resultado_mensual
 ```
 
+# Grafico 3
+
+::::: columns
+::: {.column width="65%"}
+```{r}
+source("scripts/g_adultos_graficos.R")
+grafico_linea_a
+```
+:::
+
+::: {.column width="35%"}
+```{r}
+tabla_egresos_mes_anterior_a
+```
+:::
+:::::
