@@ -1,54 +1,34 @@
-# 1. Fecha del mes anterior====
-
-# Obtener la fecha actual
-fecha_actual <- Sys.Date()
-
-# Determinar el primer día del mes anterior
-primer_dia_mes_anterior <- as.Date(paste(year(fecha_actual), month(fecha_actual) - 1, "01", sep = "-"))
-ultimo_dia_mes_anterior <- primer_dia_mes_anterior %m+% months(1) - days(1)
-
-
-# 2. Grafico linea ====
-
-# Creacion Grafico de linea Guardia Adultos todo el año hasta el mes anterior del actual
-
-
-# 1. Gráfico de línea (todo el año hasta el mes anterior)
-base_servicio_adultos_anio <- base %>%
-  filter(Servicio == "Adultos", 
+# Crear el gráfico de línea para Pediatría (todo el año hasta el mes anterior)
+base_servicio_pediatria_anio <- base %>%
+  filter(Servicio == "Pediatria", 
          year(Fecha) == year(fecha_actual), 
          Fecha < primer_dia_mes_anterior)  # Filtramos hasta el mes anterior
 
-grafico_linea_a <- base_servicio_adultos_anio %>%
+grafico_linea_p <- base_servicio_pediatria_anio %>%
   filter(`Tipo de egreso` %in% c("Derivación", "Internación")) %>%
   group_by(Semana, `Tipo de egreso`) %>%
   summarise(Cantidad_egresos = n(), .groups = "drop") %>%
   ggplot(aes(x = Semana, y = Cantidad_egresos, color = `Tipo de egreso`, group = `Tipo de egreso`)) +
   geom_line(size = 1) +
-  labs(title = "Egresos por Semana Epidemiológica (Adultos)",
+  labs(title = "Egresos por Semana Epidemiológica (Pediatría)",
        x = "Semana Epidemiológica",
        y = "Cantidad de Egresos",
        color = "Tipo de Egreso") +
-  scale_x_continuous(breaks = seq(min(base_servicio_adultos_anio$Semana), 
-                                  max(base_servicio_adultos_anio$Semana), 
-                                  by = 1)) +  # Esto ajusta los incrementos a 1
+  scale_x_continuous(breaks = seq(min(base_servicio_pediatria_anio$Semana), 
+                                  max(base_servicio_pediatria_anio$Semana), 
+                                  by = 1)) +
   theme_minimal()
 
 # Mostrar el gráfico
-#grafico_linea_a
+#grafico_linea_p
 
-#3. Tabla con 4 semanas====
-
-#Creacion tabla internacion/derivacion/total ingresos con 4 semanas del mes anterior
-
-
-# 2. Tabla con las 4 semanas del mes anterior (solo Derivación e Internación)
-base_servicio_adultos_mes_anterior <- base %>%
-  filter(Servicio == "Adultos", 
+# Tabla con 4 semanas del mes anterior para Pediatría
+base_servicio_pediatria_mes_anterior <- base %>%
+  filter(Servicio == "Pediatria", 
          Fecha >= primer_dia_mes_anterior, 
          Fecha <= ultimo_dia_mes_anterior)
 
-tabla_egresos_mes_anterior_a <- base_servicio_adultos_mes_anterior %>%
+tabla_egresos_mes_anterior_p <- base_servicio_pediatria_mes_anterior %>%
   filter(`Tipo de egreso` %in% c("Derivación", "Internación")) %>%
   group_by(Semana, `Tipo de egreso`) %>%
   summarise(Cantidad_egresos = n(), .groups = "drop") %>%
@@ -56,14 +36,11 @@ tabla_egresos_mes_anterior_a <- base_servicio_adultos_mes_anterior %>%
   ungroup() %>%
   mutate(Ingresos = rowSums(select(., Derivación, Internación), na.rm = TRUE))
 
-# Mostrar la tabla
-#print(tabla_egresos_mes_anterior)
-
-# Crear la tabla con la librería gt
-tabla_egresos_mes_anterior_a <- tabla_egresos_mes_anterior_a %>%
+# Crear la tabla con la librería gt para Pediatría
+tabla_egresos_mes_anterior_p <- tabla_egresos_mes_anterior_p %>%
   gt() %>%
   tab_header(
-    title = "Egresos del Servicio de Adultos por Semana"
+    title = "Egresos del Servicio de Pediatría por Semana"
   ) %>%
   cols_label(
     Semana = "Semana",
@@ -89,11 +66,4 @@ tabla_egresos_mes_anterior_a <- tabla_egresos_mes_anterior_a %>%
   )
 
 # Mostrar la tabla
-#tabla_egresos_mes_anterior_a
-
-
-
-
-
-
-
+tabla_egresos_mes_anterior_p

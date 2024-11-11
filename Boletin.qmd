@@ -41,3 +41,19 @@ tabla_egresos_mes_anterior_a
 ```
 :::
 :::::
+
+# Grafico 4
+::::: columns
+::: {.column width="65%"}
+```{r}
+source("scripts/g_pediatria_graficos.R")
+grafico_linea_p
+```
+:::
+
+::: {.column width="35%"}
+```{r}
+tabla_egresos_mes_anterior_p
+```
+:::
+::::
