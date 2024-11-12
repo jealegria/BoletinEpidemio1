@@ -30,30 +30,31 @@ tabla_resultado_mensual
 ::::: columns
 ::: {.column width="65%"}
 ```{r}
-source("scripts/g_adultos_graficos.R")
-grafico_linea_a
+source("scripts/egresos_mensuales2.R")
+egresos_mensual_a
 ```
 :::
 
 ::: {.column width="35%"}
 ```{r}
-tabla_egresos_mes_anterior_a
+tabla_adultos
 ```
 :::
 :::::
 
 # Grafico 4
+
 ::::: columns
 ::: {.column width="65%"}
 ```{r}
-source("scripts/g_pediatria_graficos.R")
-grafico_linea_p
+source("scripts/egresos_mensuales2.R")
+egresos_mensual_p
 ```
 :::
 
 ::: {.column width="35%"}
 ```{r}
-tabla_egresos_mes_anterior_p
+tabla_pediatria
 ```
 :::
-::::
+:::::
