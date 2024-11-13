@@ -27,7 +27,6 @@ tabla_resultado_mensual
 
 # Grafico 3
 
-::::: columns
 ::: {.column width="65%"}
 ```{r}
 source("scripts/egresos_mensuales2.R")
@@ -40,11 +39,9 @@ egresos_mensual_a
 tabla_adultos
 ```
 :::
-:::::
 
 # Grafico 4
 
-::::: columns
 ::: {.column width="65%"}
 ```{r}
 source("scripts/egresos_mensuales2.R")
@@ -57,4 +54,3 @@ egresos_mensual_p
 tabla_pediatria
 ```
 :::
-:::::
