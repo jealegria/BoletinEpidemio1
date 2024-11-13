@@ -58,68 +58,69 @@ egresos_mensual_a <- ggplot(base_adultos, aes(x = Semana, y = Cantidad, color = 
 
 ##### 2. Tablas de egresos====
 
-#Proceso de datos
-
-# Obtener la fecha actual y calcular el último día del mes anterior
+# Obtener el año y mes actuales
 fecha_actual <- Sys.Date()
-anio_actual <- format(fecha_actual, "%Y")
+anio_actual <- as.numeric(format(fecha_actual, "%Y"))
 mes_actual <- as.numeric(format(fecha_actual, "%m"))
 
-# Calcular el primer día del mes actual y el último día del mes anterior
-primer_dia_mes_actual <- as.Date(paste0(anio_actual, "-", mes_actual, "-01"))
-ultimo_dia_mes_anterior <- primer_dia_mes_actual - 1
-
-# Determinar el número de semana de ese último día del mes anterior
-semana_limite <- as.numeric(format(ultimo_dia_mes_anterior, "%U")) + 1
-
-# Filtrar los datos hasta el último día del mes anterior
-base_filtrada <- base %>%
-  filter(Fecha <= ultimo_dia_mes_anterior) %>%
-  filter(Semana <= semana_limite)
-
-# Obtener las semanas del mes anterior (mes previo al mes actual)
+# Determinar el mes y año anterior
 mes_anterior <- mes_actual - 1
+anio_anterior <- anio_actual
 if (mes_anterior == 0) {
   mes_anterior <- 12
   anio_anterior <- anio_actual - 1
-} else {
-  anio_anterior <- anio_actual
 }
 
-# Filtrar para que solo incluya las semanas del mes anterior
-base_mes_anterior <- base_filtrada %>%
+# Filtrar los datos para las semanas del mes anterior
+base_mes_anterior <- base %>%
   filter(format(Fecha, "%Y-%m") == paste(anio_anterior, sprintf("%02d", mes_anterior), sep = "-"))
 
-#Creacion de tablas
+# Dividir el dataframe en dos según "Servicio"
+base_adultos <- base_mes_anterior %>% filter(Servicio == "Adultos")
+base_pediatria <- base_mes_anterior %>% filter(Servicio == "Pediatria")
 
-# Crear tabla para Pediatría
-tabla_pediatria <- base_mes_anterior %>%
-  filter(Servicio == "Pediatria", `Tipo de egreso` %in% c("Derivación", "Internación")) %>%
-  group_by(Semana, `Tipo de egreso`) %>%
-  summarise(Cantidad = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = `Tipo de egreso`, values_from = Cantidad, values_fill = list(Cantidad = 0)) %>%
-  mutate(Total = `Derivación` + `Internación`) %>%
-  select(Semana, `Derivación`, `Internación`, Total) %>%
-  gt() %>%
-  tab_header(
-    title = "Egresos por Semana - Pediatría"
-  )
-
-# Crear tabla para Adultos
-tabla_adultos <- base_mes_anterior %>%
-  filter(Servicio == "Adultos", `Tipo de egreso` %in% c("Derivación", "Internación")) %>%
-  group_by(Semana, `Tipo de egreso`) %>%
-  summarise(Cantidad = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = `Tipo de egreso`, values_from = Cantidad, values_fill = list(Cantidad = 0)) %>%
-  mutate(Total = `Derivación` + `Internación`) %>%
-  select(Semana, `Derivación`, `Internación`, Total) %>%
+# Crear tabla de egresos por semana para Adultos
+tabla_adultos <- base_adultos %>%
+  filter(`Tipo de egreso` %in% c("Derivación", "Internación")) %>%
+  group_by(Semana) %>%
+  summarise(
+    Derivación = sum(`Tipo de egreso` == "Derivación"),
+    Internación = sum(`Tipo de egreso` == "Internación"),
+    .groups = 'drop'
+  ) %>%
+  left_join(
+    base_adultos %>%
+      group_by(Semana) %>%
+      summarise(Total = n(), .groups = 'drop'),
+    by = "Semana"
+  ) %>%
   gt() %>%
   tab_header(
     title = "Egresos por Semana - Adultos"
   )
 
+# Crear tabla de egresos por semana para Pediatría
+tabla_pediatria <- base_pediatria %>%
+  filter(`Tipo de egreso` %in% c("Derivación", "Internación")) %>%
+  group_by(Semana) %>%
+  summarise(
+    Derivación = sum(`Tipo de egreso` == "Derivación"),
+    Internación = sum(`Tipo de egreso` == "Internación"),
+    .groups = 'drop'
+  ) %>%
+  left_join(
+    base_pediatria %>%
+      group_by(Semana) %>%
+      summarise(Total = n(), .groups = 'drop'),
+    by = "Semana"
+  ) %>%
+  gt() %>%
+  tab_header(
+    title = "Egresos por Semana - Pediatría"
+  )
+
 # Mostrar las tablas
-#tabla_pediatria
 #tabla_adultos
+#tabla_pediatria
 
 
