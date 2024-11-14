@@ -64,15 +64,15 @@ tabla_horizontal_a1 <- calcular_tabla_horizontal(egresos_a1)
 tabla_p1_final <- tabla_horizontal_p1 %>%
   gt(rowname_col = "Año") %>%
   tab_header(title = "Egresos de Pediatria por Mes y Año con Diferencias") %>%
-  fmt_number(columns = everything(), decimals = 0) %>%  # Sin decimales para todas las columnas
-  fmt_number(columns = starts_with("Cambio"), decimals = 2) %>% # Dos decimales solo para Cambio %
+  fmt_number(columns = everything(), decimals = 0, use_seps = FALSE) %>%  # Sin decimales ni comas para todas las columnas
+  fmt(columns = everything(), rows = Año == "Cambio %", fns = function(x) paste0(x, "%")) %>% # Agregar símbolo % en fila Cambio % sin decimales
   fmt_missing(columns = everything(), missing_text = "-")
 
 tabla_a1_final <- tabla_horizontal_a1 %>%
   gt(rowname_col = "Año") %>%
   tab_header(title = "Egresos de Adultos por Mes y Año con Diferencias") %>%
-  fmt_number(columns = everything(), decimals = 0) %>%
-  fmt_number(columns = starts_with("Cambio"), decimals = 2) %>%
+  fmt_number(columns = everything(), decimals = 0, use_seps = FALSE) %>%
+  fmt(columns = everything(), rows = Año == "Cambio %", fns = function(x) paste0(x, "%")) %>% # Agregar símbolo % en fila Cambio % sin decimales
   fmt_missing(columns = everything(), missing_text = "-")
 
 # Mostrar las tablas en tu reporte
