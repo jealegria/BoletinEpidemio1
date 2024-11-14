@@ -3,9 +3,10 @@ title: "Boletin"
 format: revealjs
 editor: visual
 echo: false
+lang: es
 ---
 
-# Grafico 1
+------------------------------------------------------------------------
 
 ```{r}
 #Cargar librerias y datos
@@ -18,14 +19,16 @@ source("scripts/comparacion_ingresos_linea.R")
 linea_ingresos
 ```
 
-# Grafico 2
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx `r año_actual` xxxxxxxxxxxxxxxxx
+
+------------------------------------------------------------------------
 
 ```{r}
 source("scripts/dif_ingresos_mensual.R")
 tabla_resultado_mensual
 ```
 
-# Grafico 3
+------------------------------------------------------------------------
 
 ::: {.column width="65%"}
 ```{r}
