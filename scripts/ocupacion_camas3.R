@@ -41,9 +41,9 @@ tabla_ocupacion <- promedio_semanal %>%
     , by = "Servicio"
   ) %>%
   gt(rowname_col = "Servicio") %>%
-  cols_label(promedio_camas = "Promedio de camas") %>%
+  cols_label(promedio_camas = "Camas") %>%
   tab_spanner(
-    label = "Promedio pacientes y ocupación semanal",
+    label = "Promedio pacientes y % ocupación semanal",
     columns = starts_with("Semana ")
   ) %>%
   cols_align(align = "center", columns = everything()) %>%
@@ -54,5 +54,5 @@ tabla_ocupacion <- promedio_semanal %>%
   )
 
 # Mostrar la tabla
-#tabla_ocupacion
+tabla_ocupacion
 
