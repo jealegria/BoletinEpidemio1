@@ -10,4 +10,4 @@ library(lubridate)
 #Carga base de camas disponibles por servicio
 base <- read_excel("baseraw/Consolidado Guardias Intranet.xlsx")
 base_mc <- read_excel("baseraw/QueryCamasServicios.xlsx")
-
+base_rp <- read_excel("baseraw/internacion_respiratorias.xlsx")

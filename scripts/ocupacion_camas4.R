@@ -1,3 +1,23 @@
+# Filtrar el mes anterior
+base_mc_filtro <- base_mc %>%
+  filter(month(Fecha) == month(Sys.Date()) - 1, year(Fecha) == year(Sys.Date()))
+
+# Calcular promedios semanales utilizando la columna "Semana"
+promedio_semanal <- base_mc_filtro %>%
+  group_by(Servicio, Semana) %>% # Usar la columna "Semana" directamente
+  summarise(
+    promedio_camas = mean(Camas, na.rm = TRUE),
+    promedio_pacientes = mean(`Existencia a las 0`, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    porcentaje_ocupacion = if_else(
+      promedio_camas > 0, 
+      (promedio_pacientes / promedio_camas) * 100, 
+      0
+    )
+  )
+
 # Tabla de valores absolutos
 tabla_valores_absolutos <- promedio_semanal %>%
   group_by(Servicio) %>%
@@ -34,7 +54,7 @@ tabla_valores_absolutos <- promedio_semanal %>%
 tabla_valores_absolutos
 
 
-################################################
+#################
 
 
 
