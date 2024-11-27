@@ -13,13 +13,14 @@ conteo_dx <- base_rp_mes_anterior %>%
 
 
 
-library(ggplot2)
+##################### Grafico
 
-ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
-  geom_bar(stat = "identity", position = "dodge") +
+
+resp_barras1 <- ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
+  geom_bar(stat = "identity", position = "stack") +  # Cambiado a barras apiladas
   facet_wrap(~ Servicio, nrow = 1, scales = "free_x") +
   scale_fill_manual(values = c("NR" = "#77FD78", "R" = "#0000FF80", "R - IRAG" = "#FF000080")) +  
-  labs(title = "Distribución de diagnósticos por semanas y servicio",
+  labs(title = "Distribución de diagnósticos por semanas y servicio (Barras Apiladas)",
        x = "Semana",
        y = "Cantidad",
        fill = "Diagnóstico") +
@@ -27,4 +28,6 @@ ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
   theme(panel.spacing = unit(1, "lines"),  # Espaciado entre servicios
         strip.text = element_text(face = "bold"),  # Títulos destacados para servicios
         panel.grid = element_blank())  # Elimina las líneas del grid
+
+#resp_barras1
 
