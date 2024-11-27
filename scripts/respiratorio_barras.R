@@ -18,7 +18,7 @@ library(ggplot2)
 ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~ Servicio, nrow = 1, scales = "free_x") +
-  scale_fill_manual(values = c("NR" = "green", "R" = "blue", "R - IRAG" = "red")) +  
+  scale_fill_manual(values = c("NR" = "#77FD78", "R" = "#0000FF80", "R - IRAG" = "#FF000080")) +  
   labs(title = "Distribución de diagnósticos por semanas y servicio",
        x = "Semana",
        y = "Cantidad",
