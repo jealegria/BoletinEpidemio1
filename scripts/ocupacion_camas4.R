@@ -95,7 +95,7 @@ tabla_porcentajes <- promedio_semanal %>%
     columns = starts_with("Semana "),
     colors = scales::col_bin(
       bins = c(-Inf, 64, 84, Inf),
-      palette = c("green", "yellow", "red"),
+      palette = c("#77FD78", "yellow", "#FF000080"),
       domain = NULL
     )
   )
