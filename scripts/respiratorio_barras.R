@@ -1,3 +1,5 @@
+#####Estructura de datos====
+
 # Determinar el mes y año actuales
 fecha_actual <- Sys.Date()
 mes_anterior <- floor_date(fecha_actual, "month") - months(1)
@@ -13,7 +15,7 @@ conteo_dx <- base_rp_mes_anterior %>%
 
 
 
-##################### Grafico
+#####################Codigo del grafico====
 
 # Crear la columna Orden_Servicio con valores numéricos según el orden deseado
 conteo_dx$Orden_Servicio <- factor(conteo_dx$Servicio, 
@@ -39,6 +41,10 @@ resp_barras1 <- ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
         strip.text = element_text(face = "bold"),  # Títulos destacados para servicios
         panel.grid = element_blank())  # Elimina las líneas del grid
 
-resp_barras1
+
+########Grafico====
+
+resp_barras1 # Grafico de barras
+
 
 
