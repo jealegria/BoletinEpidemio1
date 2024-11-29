@@ -17,20 +17,18 @@ conteo_dx <- base_rp_mes_anterior %>%
 
 #####################Codigo del grafico====
 
-# Crear la columna Orden_Servicio con valores numéricos según el orden deseado
-conteo_dx$Orden_Servicio <- factor(conteo_dx$Servicio, 
-                                   levels = c("Clínica Médica", "UTIA", "Pediatría", "UTIP", "Neonatología"), 
-                                   labels = c(1, 2, 3, 4, 5))
 
-# Asegurarse de que la columna 'Orden_Servicio' sea un factor ordenado
-conteo_dx$Orden_Servicio <- as.numeric(conteo_dx$Orden_Servicio)
+# Asegurar el orden de los servicios
+conteo_dx$Servicio <- factor(conteo_dx$Servicio, 
+                             levels = c("Clínica Médica", "UTIA", "Pediatría", "UTIP", "Neonatología"))
 
-# Crear el gráfico de barras apiladas con los nombres de las variables modificados
+# Crear el gráfico con el orden especificado
 resp_barras1 <- ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
   geom_bar(stat = "identity", position = "stack") +  # Barras apiladas
-  facet_wrap(~ Servicio, nrow = 1, scales = "free_x", 
-             labeller = labeller(Servicio = function(x) factor(x, levels = c("Clínica Médica", "UTIA", "Pediatría", "UTIP", "Neonatología")))) +  # Orden por número
-  scale_fill_manual(values = c("No Respiratorio" = "#77FD78", "Respiratorio" = "#0000FF80", "Respiratorio - IRAG" = "#FF000080"),
+  facet_wrap(~ Servicio, nrow = 1, scales = "free_x") +  # Orden de las facetas según niveles del factor
+  scale_fill_manual(values = c("No Respiratorio" = "#77FD78", 
+                               "Respiratorio" = "#0000FF80", 
+                               "Respiratorio - IRAG" = "#FF000080"),
                     labels = c("Respiratorio - IRAG" = "IRAG")) +  # Modificar nombres de las variables
   labs(title = "Distribución de diagnósticos por semanas y servicio (Barras Apiladas)",
        x = "Semana",
@@ -41,10 +39,8 @@ resp_barras1 <- ggplot(conteo_dx, aes(x = Semana, y = Cantidad, fill = Dx)) +
         strip.text = element_text(face = "bold"),  # Títulos destacados para servicios
         panel.grid = element_blank())  # Elimina las líneas del grid
 
-
-########Grafico====
-
-resp_barras1 # Grafico de barras
+##### Grafico ====
+resp_barras1
 
 
 
